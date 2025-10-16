@@ -1,0 +1,18 @@
+/* Custom CSS */
+h3 {
+    font-size: 1.4rem;
+}
+
+table a {
+    text-decoration: none;
+}
+
+.thumbnail {
+    width: 40px;
+}
+/* Header */
+.banner {
+    height: 300px;
+    background: url("../images/banner.jpg") no-repeat center center;
+    background-size: cover;
+}

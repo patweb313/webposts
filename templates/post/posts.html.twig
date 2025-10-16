@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Posts{% endblock %}
+
+{% block body %}
+    <main class="container">
+        <section id="posts">
+            <div class="row">
+                <h2 class="display-4 my-5">Tout nos articles</h2>
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    {% for post in posts %}
+                    <div class="col">
+                        <div class="card h-100">
+                            <h3 class="card-header">{{ post.title }}</h3>
+                            <img src="{{ asset('images/posts/' ~ post.image) }}" class="card-img-top" alt="{{ post.title }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ post.category.name }}</h5>
+                                <p class="card-text">{{ post.content|u.truncate(100, '...', false) }}</p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">{{ post.createdAt|date('d/m/Y') }}</li>
+                                <li class="list-group-item"><a href="{{ path('app_post', {slug:post.slug}) }}" class="btn btn-outline-dark">Lire la suite</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}

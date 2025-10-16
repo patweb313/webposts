@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Webposts-Home{% endblock %}
+
+{% block body %}
+<section class="container">
+    <h2 class="display-4 my-5">Les dernières tendances du Web</h2>
+    {% for post in posts %}
+    <div class="card mb-3">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="{{ asset('images/posts/' ~ post.image) }}" class="img-fluid rounded-start" alt="{{ post.title }}">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">{{ post.title }}</h5>
+                    <p class="card-text">{{ post.content }}</p>
+                    <p class="card-text"><a href="{{ path('app_posts') }}" class="btn btn-secondary">Tous les articles</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</section>
+{% endblock %}
