@@ -4,12 +4,14 @@ namespace App\DataFixtures;
 
 use App\Entity\Category;
 use App\Entity\Post;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-class PostFixtures extends Fixture
+class PostFixtures extends Fixture implements DependentFixtureInterface
 {
     public function __construct(private readonly SluggerInterface $slugger)
         {
@@ -21,6 +23,8 @@ class PostFixtures extends Fixture
         $faker = Factory::create();
         // Récupérer les objets Category
         $categories = $manager->getRepository(Category::class)->findAll();
+        // Récupérer les objets User
+        $users = $manager->getRepository(User::class)->findAll();
         for($i = 1; $i <= 30; $i++) {
            $post = new Post();
            $post->setTitle($faker->sentence(3))
@@ -30,9 +34,18 @@ class PostFixtures extends Fixture
                 ->setImage($i.'.jpg')
                 ->setIsPublished($faker->boolean(90))
                 ->setCategory($categories[array_rand($categories)])
+                ->setUser($users[array_rand($users)])
                 ->setSlug($this->slugger->slug($post->getTitle()));
             $manager->persist($post);
         }
         $manager->flush();
+    }
+
+    public function getDependencies(): array
+    {
+        return [
+            CategoryFixtures::class,
+            UserFixtures::class,
+        ];
     }
 }
