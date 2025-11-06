@@ -10,6 +10,12 @@ table a {
 .thumbnail {
     width: 40px;
 }
+
+.img-menu {
+    margin-right: 8px;
+    width: 40px;
+    border-radius: 50%;
+}
 /* Header */
 .banner {
     height: 300px;
