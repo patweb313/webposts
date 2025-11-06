@@ -40,10 +40,10 @@ class UserFixtures extends Fixture
         // Admin John Doe
         $user = new User();
         $user   ->setFirstName('John')
-            ->setLastName('Doe')
-            ->setEmail('john.doe@gmail.com')
-            ->setImageName('062m.jpg')
-            ->setPassword($this->hasher->hashPassword($user, 'password'))
+                ->setLastName('Doe')
+                ->setEmail('john.doe@gmail.com')
+                ->setImageName('062m.jpg')
+                ->setPassword($this->hasher->hashPassword($user, 'password'))
             ->setCreatedAt(new \DateTimeImmutable())
             ->setUpdatedAt(new \DateTimeImmutable())
             ->setIsDisabled(false)
