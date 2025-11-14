@@ -37,7 +37,8 @@ final class AdminPostController extends AbstractController
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $post   -> setCreatedAt(new \DateTimeImmutable())
+            $post   -> setUser($this->getUser()) // Ajoute l'id du user qui poste l'article
+                    -> setCreatedAt(new \DateTimeImmutable())
                     -> setEditedAt(new \DateTimeImmutable())
                     -> setSlug($this->slugger->slug($post->getTitle()));
             $manager->persist($post);

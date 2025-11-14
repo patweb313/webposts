@@ -4,24 +4,27 @@ namespace App\Controller;
 
 use App\Repository\CategoryRepository;
 use App\Repository\PostRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class PostController extends AbstractController
 {
     #[Route('/posts', name: 'app_posts')]
-    public function posts(PostRepository $repository, CategoryRepository $categoryRepository ): Response
+    public function posts(PostRepository $repository, CategoryRepository $categoryRepository, PaginatorInterface $paginator, Request $request ): Response
     {
         //$posts = $repository->findAll();
         $posts = $repository->findBy(
             ['isPublished' => true],
             ['createdAt' => 'DESC']
         );
+        $pagination = $paginator->paginate($posts, $request->query->getint('page', 1), 10);
         $categories = $categoryRepository->findAll();
         //dd($posts);
         return $this->render('post/posts.html.twig', [
-            'posts' => $posts,
+            'posts' => $pagination,
             'categories' => $categories,
         ]);
     }
