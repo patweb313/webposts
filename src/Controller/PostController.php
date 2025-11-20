@@ -40,7 +40,7 @@ final class PostController extends AbstractController
     }
 
     #[Route('/posts/{category}', name: 'app_posts_cat')]
-    public function postsCat($category, PostRepository $repository): Response
+    public function postsCat($category, PostRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
 //        Double requête (pas bien)
 //        $category = $categoryRepository->findOneBy(['slug' => $slug]);
@@ -50,8 +50,9 @@ final class PostController extends AbstractController
 //            ['createdAt' => 'DESC']);
         // utilisation de la requête findByCategory du PostRepository
         $posts = $repository->findByCategory($category);
+        $pagination = $paginator->paginate($posts, $request->query->getint('page', 1), 10);
         return $this->render('post/posts.html.twig', [
-            'posts' => $posts,
+            'posts' => $pagination,
         ]);
     }
 }

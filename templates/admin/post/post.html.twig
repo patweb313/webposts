@@ -8,7 +8,7 @@
             <div class="col-md-9 offset-1">
                 <h1 class="display-4 py-3">Gestion des articles</h1>
                 <a href="{{ path('app_admin_newpost') }}" class="btn btn-outline-primary">Nouvel article</a>
-                <table class="table table-hover my-4">
+                <table class="table table-hover my-4 pt-3 display" id="liste">
                     <thead>
                     <tr>
                         <th>Image</th>
@@ -16,7 +16,10 @@
                         <th>Categorie</th>
                         <th>Création</th>
                         <th>Auteur</th>
-                        <th colspan="4">Mise à jour</th>
+                        <th>Mise à jour</th>
+                        <th><i class="icofont-ui-delete"></i></th>
+                        <th><i class="icofont-ui-edit"></i></th>
+                        <th><i class="icofont-eye-open"></i></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -41,7 +44,21 @@
                     {% endfor %}
                     </tbody>
                 </table>
+                <script>
+                    $(function() {
+                        $('#liste').DataTable(
+                            {
+                                lengthChange: false,
+                                columnDefs: [
+                                    {orderable: false, targets: [0, 5, 6, 7, 8]}
+                                ],
+                                info: false
+                            }
+                        );
+                    })
+                </script>
             </div>
         </section>
     </main>
 {% endblock %}
+

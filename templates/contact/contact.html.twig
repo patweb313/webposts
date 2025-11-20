@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Email{% endblock %}
+
+{% block body %}
+    <section class="row">
+        <div class="col-md-6 offset-3">
+            <h2 class="dispay-4 my-3">Nous contacter</h2>
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <input type="submit" value="envoyer" class="btb btn-outline-dark">
+            {{ form_end(form) }}
+        </div>
+    </section>
+{% endblock %}

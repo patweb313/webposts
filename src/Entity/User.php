@@ -10,11 +10,14 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\PasswordStrength;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity(fields: ['email'], message: 'Cet Email existe déjà')]
 #[Vich\Uploadable]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -23,6 +26,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\Email()]
     #[ORM\Column(length: 180)]
     private ?string $email = null;
 
@@ -35,6 +39,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string The hashed password
      */
+    #[Assert\NotBlank(message: "Le mot de passe est obligatoire.")]
+    #[Assert\Length(
+        min: 8,
+        minMessage: "Le mot de passe doit contenir au moins {{ limit }} caractères."
+    )]
+    #[Assert\Regex(
+        pattern: "/[A-Z]/",
+        message: "Le mot de passe doit contenir au moins une majuscule."
+    )]
+    #[Assert\Regex(
+        pattern: "/[a-z]/",
+        message: "Le mot de passe doit contenir au moins une minuscule."
+    )]
+    #[Assert\Regex(
+        pattern: "/\d/",
+        message: "Le mot de passe doit contenir au moins un chiffre."
+    )]
+    #[Assert\Regex(
+        pattern: "/[\W]/",
+        message: "Le mot de passe doit contenir au moins un caractère spécial."
+    )]
     #[ORM\Column]
     private ?string $password = null;
 

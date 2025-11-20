@@ -7,6 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 #[Vich\Uploadable]
@@ -17,9 +18,22 @@ class Post
     #[ORM\Column]
     private ?int $id = null;
 
+
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 3,
+        max: 120,
+        minMessage: 'Le titre de l\'article doit contenir au minimum {{ limit }} caractères',
+        maxMessage: 'Le titre de l\'article ne doit pas contenir plus de {{ limit }} caractères',
+    )]
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
+    #[Assert\Length(
+        min: 10,
+        minMessage: 'Le contenu de l\'article doit contenir au minimum {{ limit }} caractères',
+    )]
+    #[Assert\NotBlank]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $content = null;
 
@@ -28,6 +42,7 @@ class Post
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $editedAt = null;
+
 
     #[ORM\Column(length: 255)]
     private ?string $image = null;
