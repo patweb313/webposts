@@ -20,6 +20,7 @@ final class ContactController extends AbstractController
     #[Route('/contact', name: 'app_contact')]
     public function contact(MailerInterface $mailer, Request $request): Response
     {
+        $siteKey = $_ENV['EWZ_RECAPTCHA_SITE_KEY'];
         $contact = new Contact();
         $form = $this->createForm(ContactType::class, $contact);
         $form->handleRequest($request);
@@ -30,11 +31,18 @@ final class ContactController extends AbstractController
                 ->subject($contact->getSubject())
                 ->text($contact->getMessage());
             $mailer->send($email);
-            return $this->render('contact/thanks.html.twig');
+            return $this->redirectToRoute('app_contact_thanks');
         }
         return $this->render('contact/contact.html.twig', [
             'form'  =>$form,
+            'recaptcha_site_key' => $siteKey,
         ]);
-
     }
+
+    #[Route('/thanks', name: 'app_contact_thanks')]
+    public function thanks(): Response
+    {
+       return $this->render('contact/thanks.html.twig');
+    }
+
 }

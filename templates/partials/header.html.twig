@@ -41,8 +41,8 @@
                                 <img src="{{ asset('images/avatar/' ~ app.user.imageName) }}" alt="" class="img-menu"> {{ app.user.firstName }} {{ app.user.lastName }}
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Voir le profil</a></li>
-                                <li><a class="dropdown-item" href="#">Modifier le profil</a></li>
+                                <li><a class="dropdown-item" href="{{path('app_profile')}}">Voir le profil</a></li>
+                                <li><a class="dropdown-item" href="{{ path('app_edit_profile') }}">Modifier le profil</a></li>
                                 <li class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="{{path('app_logout')}}">Logout</a></li>
                                 {% if is_granted('ROLE_ADMIN') %}

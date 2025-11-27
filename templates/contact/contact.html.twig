@@ -7,7 +7,13 @@
         <div class="col-md-6 offset-3">
             <h2 class="dispay-4 my-3">Nous contacter</h2>
             {{ form_start(form) }}
-            {{ form_widget(form) }}
+            {{ form_row(form.firstName) }}
+            {{ form_row(form.lastName) }}
+            {{ form_row(form.email) }}
+            {{ form_row(form.subject) }}
+            {{ form_row(form.message) }}
+            {{ form_row(form.recaptcha) }}
+            <script src="https://www.google.com/recaptcha/api.js" async defer></script>
             <input type="submit" value="envoyer" class="btb btn-outline-dark">
             {{ form_end(form) }}
         </div>

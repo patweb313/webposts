@@ -78,6 +78,4 @@ class Contact
         $this->message = $message;
         return $this;
     }
-
-
 }
